@@ -43,7 +43,7 @@ class Server {
       await this.dbConnection();
       this.routes();
       this.app.listen(this.port, () => {
-        console.log("Servidor corriendo en http://localhost:" + this.port);
+        console.log("Servidor corriendo en http://localhost:", this.port);
       });
     } catch (error) {
       console.log("Error al iniciar el servidor");

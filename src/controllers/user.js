@@ -1,6 +1,9 @@
 const { db } = require("../models/index");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const EmailController = require("../helpers/email");
+
+const emailController = new EmailController();
 
 const createUser = async (data) => {
   try {
@@ -8,12 +11,20 @@ const createUser = async (data) => {
     data.password = hashPassword;
     const newUser = await db.userModel.create(data);
 
+    const userJSON = JSON.stringify(newUser.toJSON());
+
+    await emailController.sendEmail({
+      html: userJSON,
+      subject: "Prueba de creación de usuario",
+      to: ["jainciarteg@gmail.com"],
+    });
+
     return newUser;
   } catch (error) {
     throw error;
   }
 };
-
+ 
 const login = async (documento, password) => {
   try {
     /**
